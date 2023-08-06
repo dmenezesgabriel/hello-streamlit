@@ -5,7 +5,11 @@ import streamlit as st
 
 from utils.number_format import format_number
 
-st.set_page_config(layout="wide")
+st.set_page_config(
+    layout="wide",
+    page_title="Dashboard de Vendas",
+    page_icon=":shopping_trolley:",
+)
 
 st.title("Dashboard de Vendas :shopping_trolley:")
 
@@ -13,6 +17,7 @@ url = "https://labdados.com/produtos"
 response = requests.get(url)
 data = pd.DataFrame.from_dict(response.json())
 
+# Data Cleaning
 data["Data da Compra"] = pd.to_datetime(
     data["Data da Compra"], format="%d/%m/%Y"
 )
@@ -35,7 +40,15 @@ monthly_revenue = (
 monthly_revenue["Ano"] = monthly_revenue["Data da Compra"].dt.year
 monthly_revenue["Mes"] = monthly_revenue["Data da Compra"].dt.month_name()
 
+categories_revenue = (
+    data.groupby("Categoria do Produto")[["Preço"]]
+    .sum()
+    .sort_values("Preço", ascending=False)
+)
 
+sellers = pd.DataFrame(data.groupby("Vendedor")["Preço"].agg({"sum", "count"}))
+
+# Figures
 fig_states_revenue_map = px.scatter_geo(
     states_revenue,
     lat="lat",
@@ -64,13 +77,75 @@ fig_monthly_revenue = px.line(
 
 fig_monthly_revenue.update_layout(yaxis_title="Receita")
 
-col1, col2 = st.columns(2)
+fig_states_revenue = px.bar(
+    states_revenue.head(5),
+    x="Local da compra",
+    y="Preço",
+    text_auto=True,
+    color="Local da compra",
+    title="TOP Receita por Estado",
+)
 
-with col1:
-    st.metric("Receita Total", format_number(data["Preço"].sum()))
-    st.plotly_chart(fig_states_revenue_map, use_container_width=True)
-with col2:
-    st.metric("Quantidade de Vendas", format_number(data.shape[0], ""))
-    st.plotly_chart(fig_monthly_revenue, use_container_width=True)
+fig_states_revenue.update_layout(yaxis_title="Receita")
 
-st.dataframe(data, use_container_width=True)
+fig_categories_revenue = px.bar(
+    categories_revenue, text_auto=True, title="Receita por Categoria"
+)
+
+fig_categories_revenue.update_layout(yaxis_title="Receita")
+
+# UI
+tab1, tab2, tab3 = st.tabs(["Receita", "Quantidade de vendas", "Vendedores"])
+
+with tab1:
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Receita Total", format_number(data["Preço"].sum()))
+        st.plotly_chart(fig_states_revenue_map, use_container_width=True)
+        st.plotly_chart(fig_states_revenue, use_container_width=True)
+    with col2:
+        st.metric("Quantidade de Vendas", format_number(data.shape[0], ""))
+        st.plotly_chart(fig_monthly_revenue, use_container_width=True)
+        st.plotly_chart(fig_categories_revenue, use_container_width=True)
+
+    st.dataframe(data, use_container_width=True)
+
+with tab2:
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Receita Total", format_number(data["Preço"].sum()))
+    with col2:
+        st.metric("Quantidade de Vendas", format_number(data.shape[0], ""))
+
+
+with tab3:
+    qty_sellers = st.number_input("Quantidade de vendedores", 1, 10, 5)
+    fig_sellers_revenue = px.bar(
+        sellers[["sum"]].sort_values("sum", ascending=False).head(qty_sellers),
+        x="sum",
+        y=sellers[["sum"]]
+        .sort_values("sum", ascending=False)
+        .head(qty_sellers)
+        .index,
+        text_auto=True,
+        title=f"TOP {qty_sellers} Receita por Vendedor",
+    )
+    fig_sellers_sells = px.bar(
+        sellers[["count"]]
+        .sort_values("count", ascending=False)
+        .head(qty_sellers),
+        x="count",
+        y=sellers[["count"]]
+        .sort_values("count", ascending=False)
+        .head(qty_sellers)
+        .index,
+        text_auto=True,
+        title=f"TOP {qty_sellers} Vendas por Vendedor",
+    )
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Receita Total", format_number(data["Preço"].sum()))
+        st.plotly_chart(fig_sellers_revenue, use_container_width=True)
+    with col2:
+        st.metric("Quantidade de Vendas", format_number(data.shape[0], ""))
+        st.plotly_chart(fig_sellers_sells, use_container_width=True)
