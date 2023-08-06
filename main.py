@@ -13,16 +13,38 @@ st.set_page_config(
 
 st.title("Dashboard de Vendas :shopping_trolley:")
 
-url = "https://labdados.com/produtos"
-response = requests.get(url)
-data = pd.DataFrame.from_dict(response.json())
+url: str = "https://labdados.com/produtos"
+regions = ["TODOS", "Centro-Oeste", "Nordeste", "Norte", "Sudeste", "Sul"]
+
+st.sidebar.title("Filtros")
+# Filters
+region = st.sidebar.selectbox("Região", regions)
+if region == "TODOS":
+    region = ""
+
+all_years = st.sidebar.checkbox("Dados de todo período", True)
+if all_years:
+    year = ""
+else:
+    year = st.sidebar.slider("Ano", 2020, 2023)
+
+query_string = {"regiao": region.lower(), "ano": year}
+response: requests.Response = requests.get(url, params=query_string)
+data: pd.DataFrame = pd.DataFrame.from_dict(response.json())
+
+sellers_filter = st.sidebar.multiselect(
+    "Vendedores", data["Vendedor"].unique()
+)
+if sellers_filter:
+    data = data[data["Vendedor"].isin(sellers_filter)]
+
 
 # Data Cleaning
 data["Data da Compra"] = pd.to_datetime(
     data["Data da Compra"], format="%d/%m/%Y"
 )
 
-states_revenue = data.groupby("Local da compra")[["Preço"]].sum()
+states_revenue: pd.DataFrame = data.groupby("Local da compra")[["Preço"]].sum()
 states_revenue = (
     data.drop_duplicates(subset=["Local da compra"])[
         ["Local da compra", "lat", "lon"]
@@ -31,7 +53,7 @@ states_revenue = (
     .sort_values("Preço", ascending=False)
 )
 
-monthly_revenue = (
+monthly_revenue: pd.DataFrame = (
     data.set_index("Data da Compra")
     .groupby(pd.Grouper(freq="M"))[["Preço"]]
     .sum()
@@ -40,13 +62,15 @@ monthly_revenue = (
 monthly_revenue["Ano"] = monthly_revenue["Data da Compra"].dt.year
 monthly_revenue["Mes"] = monthly_revenue["Data da Compra"].dt.month_name()
 
-categories_revenue = (
+categories_revenue: pd.DataFrame = (
     data.groupby("Categoria do Produto")[["Preço"]]
     .sum()
     .sort_values("Preço", ascending=False)
 )
 
-sellers = pd.DataFrame(data.groupby("Vendedor")["Preço"].agg({"sum", "count"}))
+sellers: pd.DataFrame = pd.DataFrame(
+    data.groupby("Vendedor")["Preço"].agg({"sum", "count"})
+)
 
 # Figures
 fig_states_revenue_map = px.scatter_geo(
@@ -119,7 +143,7 @@ with tab2:
 
 
 with tab3:
-    qty_sellers = st.number_input("Quantidade de vendedores", 1, 10, 5)
+    qty_sellers: int = st.number_input("Quantidade de vendedores", 1, 10, 5)
     fig_sellers_revenue = px.bar(
         sellers[["sum"]].sort_values("sum", ascending=False).head(qty_sellers),
         x="sum",
