@@ -1,6 +1,26 @@
+import time
+
 import pandas as pd
 import requests
 import streamlit as st
+
+st.set_page_config(
+    layout="wide",
+    page_title="Detalhe",
+    page_icon=":shopping_trolley:",
+)
+
+
+@st.cache_data
+def convert_csv(df):
+    return df.to_csv(index=False).encode("utf-8")
+
+
+def success_message():
+    success = st.success("Download concluído com sucesso!", icon="✅")
+    time.sleep(5)
+    success.empty()
+
 
 st.title("Dados Brutos")
 
@@ -52,3 +72,17 @@ st.dataframe(filtered_data)
 st.markdown(
     f"A tabela possui :blue[{filtered_data.shape[0]}] linhas e :blue[{filtered_data.shape[1]}] colunas"
 )
+
+st.markdown("Escolha o nome do arquivo")
+col1, col2 = st.columns(2)
+with col1:
+    filename = st.text_input("", label_visibility="collapsed", value="dados")
+    filename = filename + ".csv"
+with col2:
+    button = st.download_button(
+        "Download",
+        data=convert_csv(filtered_data),
+        file_name=filename,
+        mime="text/csv",
+        on_click=success_message,
+    )
