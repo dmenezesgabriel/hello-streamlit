@@ -38,7 +38,6 @@ sellers_filter = st.sidebar.multiselect(
 if sellers_filter:
     data = data[data["Vendedor"].isin(sellers_filter)]
 
-
 # Data Cleaning
 data["Data da Compra"] = pd.to_datetime(
     data["Data da Compra"], format="%d/%m/%Y"
@@ -121,6 +120,7 @@ fig_categories_revenue.update_layout(yaxis_title="Receita")
 # UI
 tab1, tab2, tab3 = st.tabs(["Receita", "Quantidade de vendas", "Vendedores"])
 
+
 with tab1:
     col1, col2 = st.columns(2)
     with col1:
@@ -132,7 +132,6 @@ with tab1:
         st.plotly_chart(fig_monthly_revenue, use_container_width=True)
         st.plotly_chart(fig_categories_revenue, use_container_width=True)
 
-    st.dataframe(data, use_container_width=True)
 
 with tab2:
     col1, col2 = st.columns(2)
