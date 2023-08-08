@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Example Component</title>
+  </head>
+  <body>
+    <fieldset>
+      <legend>Example component</legend>
+      <input id="text_input" value="" placeholder="Enter some text" />
+      <div id="message_div"><br /><span id="message_label">__</span></div>
+    </fieldset>
+    <script>
+      class StreamlitComponent {
+        constructor() {
+          this.pipeline = [
+            this.initializePropsHandler.bind(this),
+            this.dataUpdateHandler.bind(this),
+            this.logHandler.bind(this),
+          ];
+
+          window.addEventListener("message", (event) => {
+            if (event.data.type === "streamlit:render") {
+              this.pipeline.forEach((handler) => {
+                handler(event.data.args);
+              });
+            }
+          });
+
+          this.sendMessage("streamlit:componentReady", { apiVersion: 1 });
+          this.setFrameHeight(200);
+        }
+
+        setFrameHeight(height) {
+          this.sendMessage("streamlit:setFrameHeight", { height: height });
+        }
+
+        sendData(data) {
+          this.sendMessage("streamlit:setComponentValue", data);
+        }
+
+        initializePropsHandler(props) {
+          // To be implemented by derived classes
+        }
+
+        dataUpdateHandler(props) {
+          // To be implemented by derived classes
+        }
+
+        logHandler(props) {
+          console.log("Received from Streamlit: " + JSON.stringify(props));
+        }
+
+        sendMessage(type, data) {
+          const outData = Object.assign(
+            {
+              isStreamlitMessage: true,
+              type: type,
+            },
+            data
+          );
+
+          if (type === "streamlit:setComponentValue") {
+            console.log("_sendMessage data: " + JSON.stringify(data));
+            console.log("_sendMessage outData: " + JSON.stringify(outData));
+          }
+
+          window.parent.postMessage(outData, "*");
+        }
+      }
+
+      class InputComponent extends StreamlitComponent {
+        constructor() {
+          super();
+          this.textInput = document.getElementById("text_input");
+
+          this.textInput.addEventListener(
+            "input",
+            this.inputHandler.bind(this)
+          );
+        }
+
+        inputHandler() {
+          this.sendData({
+            value: this.textInput.value,
+            dataType: "json",
+          });
+        }
+
+        initializePropsHandler(props) {
+          if (this.textInput.value === "") {
+            this.textInput.value = props.initial_state.message;
+          }
+        }
+
+        dataUpdateHandler(props) {
+          const msgLabel = document.getElementById("message_label");
+          msgLabel.innerText = `Updated at ${props.datetime}`;
+        }
+      }
+
+      const inputComponent = new InputComponent();
+    </script>
+  </body>
+</html>
