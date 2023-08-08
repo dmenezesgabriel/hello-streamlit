@@ -1,8 +1,11 @@
+from datetime import datetime
+
 import pandas as pd
 import plotly.express as px
 import requests
 import streamlit as st
 
+from components.example import component_example
 from utils.number_format import format_number
 
 st.set_page_config(
@@ -134,11 +137,21 @@ with tab1:
 
 
 with tab2:
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Receita Total", format_number(data["Preço"].sum()))
-    with col2:
-        st.metric("Quantidade de Vendas", format_number(data.shape[0], ""))
+
+    def run_component(props):
+        value = component_example(key="example", **props)
+        return value
+
+    def handle_event(value):
+        st.header("Streamlit")
+        st.write("Received from component: ", value)
+
+    props = {
+        "initial_state": {"message": "Hello! Enter some text"},
+        "datetime": str(datetime.now().strftime("%H:%M:%S, %d %b %Y")),
+    }
+    handle_event(run_component(props))
+    st.title("Component Example")
 
 
 with tab3:
