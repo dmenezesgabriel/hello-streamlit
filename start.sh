@@ -2,6 +2,7 @@
 
 # Define variables
 ENV=DEVELOPMENT
+PYTHONDONTWRITEBYTECODE=1
 PYTHON_EXECUTABLE=""
 DASHBOARD_FILE="app/src/Dashboard.py"
 REQUIREMENTS_FILE="app/requirements.txt"
@@ -32,7 +33,7 @@ create_virtual_environment() {
 start_dashboard() {
   echo "Starting Streamlit Dashboard..."
   echo "Environment: $ENV"
-  $PYTHON_EXECUTABLE -m streamlit run $DASHBOARD_FILE
+  PYTHONDONTWRITEBYTECODE=1 ENV=$ENV $PYTHON_EXECUTABLE -m streamlit run $DASHBOARD_FILE
 }
 
 # Main script
