@@ -4,7 +4,7 @@
 ENV=DEVELOPMENT
 PYTHONDONTWRITEBYTECODE=1
 PYTHON_EXECUTABLE=""
-DASHBOARD_FILE="app/src/Dashboard.py"
+DASHBOARD_FILE="app/src/main.py"
 REQUIREMENTS_FILE="app/requirements.txt"
 
 # Define functions

@@ -4,17 +4,12 @@ import pandas as pd
 import plotly.express as px
 import requests
 import streamlit as st
-
 from components.example import component_example
+from ui.pages import set_pages
 from utils.number_format import format_number
 
-st.set_page_config(
-    layout="wide",
-    page_title="Dashboard de Vendas",
-    page_icon=":shopping_trolley:",
-)
+set_pages()
 
-st.title("Dashboard de Vendas :shopping_trolley:")
 
 url: str = "https://labdados.com/produtos"
 regions = ["TODOS", "Centro-Oeste", "Nordeste", "Norte", "Sudeste", "Sul"]
