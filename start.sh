@@ -3,18 +3,19 @@
 # Define variables
 ENV=DEVELOPMENT
 PYTHONDONTWRITEBYTECODE=1
-PYTHON_EXECUTABLE=""
-DASHBOARD_FILE="app/src/main.py"
+PYTHON_EXECUTABLE="/usr/bin/python3"
+PYTHON_VENV_EXECUTABLE=""
+DASHBOARD_FILE="app/src/Dashboard.py"
 REQUIREMENTS_FILE="app/requirements.txt"
 
 # Define functions
-set_python_executable() {
+set_PYTHON_VENV_EXECUTABLE() {
   if [ "$(uname -s)" = "Linux" ]; then
-    PYTHON_EXECUTABLE=venv/bin/python
+    PYTHON_VENV_EXECUTABLE=venv/bin/python
   elif [ "$(uname -s)" = "Windows" ]; then
-    PYTHON_EXECUTABLE=venv/Scripts/python
+    PYTHON_VENV_EXECUTABLE=venv/Scripts/python
   elif [ "$(uname -s)" = "Darwin" ]; then
-    PYTHON_EXECUTABLE=venv/bin/python
+    PYTHON_VENV_EXECUTABLE=venv/bin/python
   else
     echo "Unsupported operating system"
     exit 1
@@ -24,19 +25,19 @@ set_python_executable() {
 create_virtual_environment() {
   if [ ! -d "venv" ]; then
     echo "Creating virtual environment..."
-    python3 -m venv venv
+    $PYTHON_EXECUTABLE -m venv venv
     echo "Installing requirements..."
-    $PYTHON_EXECUTABLE -m pip install -r $REQUIREMENTS_FILE
+    $PYTHON_VENV_EXECUTABLE -m pip install -r $REQUIREMENTS_FILE
   fi
 }
 
 start_dashboard() {
   echo "Starting Streamlit Dashboard..."
   echo "Environment: $ENV"
-  PYTHONDONTWRITEBYTECODE=1 ENV=$ENV $PYTHON_EXECUTABLE -m streamlit run $DASHBOARD_FILE
+  PYTHONDONTWRITEBYTECODE=1 ENV=$ENV $PYTHON_VENV_EXECUTABLE -m streamlit run $DASHBOARD_FILE
 }
 
 # Main script
-set_python_executable
+set_PYTHON_VENV_EXECUTABLE
 create_virtual_environment
 start_dashboard

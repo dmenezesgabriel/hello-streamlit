@@ -5,10 +5,12 @@ import requests
 import streamlit as st
 
 st.set_page_config(
+    page_title="Dados Brutos",
+    page_icon=":bar_chart:",
     layout="wide",
-    page_title="Detalhe",
-    page_icon=":shopping_trolley:",
+    initial_sidebar_state="expanded",
 )
+st.title("Dados Brutos")
 
 
 @st.cache_data
@@ -21,8 +23,6 @@ def success_message():
     time.sleep(5)
     success.empty()
 
-
-st.title("Dados Brutos")
 
 url: str = "https://labdados.com/produtos"
 
