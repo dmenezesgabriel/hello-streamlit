@@ -120,7 +120,10 @@ fig_categories_revenue = px.bar(
 fig_categories_revenue.update_layout(yaxis_title="Receita")
 
 # UI
-tab1, tab2, tab3 = st.tabs(["Receita", "Quantidade de vendas", "Vendedores"])
+(
+    tab1,
+    tab2,
+) = st.tabs(["Receita", "Vendedores"])
 
 
 with tab1:
@@ -136,24 +139,6 @@ with tab1:
 
 
 with tab2:
-
-    def run_component(props):
-        value = component_example(key="example", **props)
-        return value
-
-    def handle_event(value):
-        st.header("Streamlit")
-        st.write("Received from component: ", value)
-
-    props = {
-        "initial_state": {"message": "Hello! Enter some text"},
-        "datetime": str(datetime.now().strftime("%H:%M:%S, %d %b %Y")),
-    }
-    handle_event(run_component(props))
-    st.title("Component Example")
-
-
-with tab3:
     qty_sellers: int = st.number_input("Quantidade de vendedores", 1, 10, 5)
     fig_sellers_revenue = px.bar(
         sellers[["sum"]].sort_values("sum", ascending=False).head(qty_sellers),
