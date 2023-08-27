@@ -64,6 +64,7 @@ def plotly_events(
         override_height=override_height,
         override_width=override_width,
         key=key,
+        default=[],
     )
     return component_value
 

@@ -25,6 +25,7 @@ def main():
         x="sepal_width",
         y="sepal_length",
         title="Sample Figure",
+        template="seaborn",
     )
     fig["layout"]["uirevision"] = True
 
