@@ -8,7 +8,7 @@ import Plot from "react-plotly.js"
 
 class PlotlyEvents extends StreamlitComponentBase {
   componentDidMount() {
-    Streamlit.setFrameHeight(200)
+    Streamlit.setFrameHeight(500)
   }
 
   public render = (): ReactNode => {
