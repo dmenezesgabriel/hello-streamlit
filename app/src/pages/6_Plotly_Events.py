@@ -1,6 +1,6 @@
 import plotly.express as px
 import streamlit as st
-from components.plotly_events import plotly_events
+from components.plotly_events.src import plotly_events
 
 st.set_page_config(
     page_title="Plotly Events",
