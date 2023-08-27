@@ -18,13 +18,32 @@ else:
     )
 
 
-def plotly_events(fig: Figure, key=None):
+def plotly_events(
+    fig: Figure,
+    click_event=True,
+    select_event=True,
+    hover_event=False,
+    double_click_event=True,
+    override_height=450,
+    override_width="100%",
+    key=None,
+):
     """Create a new instance of "my_component".
 
     Parameters
     ----------
     fig: Figure
         A Plotly figure.
+    click_event: bool
+        Whether to send click events to the component.
+    select_event: bool
+        Whether to send select events to the component.
+    hover_event: bool
+        Whether to send hover events to the component.
+    override_height: int
+        The height of the component.
+    override_width: int
+        The width of the component.
     key: str or None
         An optional key that uniquely identifies this component. If this is
         None, and the component's arguments are changed, the component will
@@ -36,6 +55,50 @@ def plotly_events(fig: Figure, key=None):
         A dictionary of values the component sends back to the Streamlit
 
     """
-    spec = fig.to_json()
-    component_value = _component_func(spec=spec)
+    component_value = _component_func(
+        fig=fig.to_json(),
+        click_event=click_event,
+        select_event=select_event,
+        hover_event=hover_event,
+        double_click_event=double_click_event,
+        override_height=override_height,
+        override_width=override_width,
+        key=key,
+    )
     return component_value
+
+
+if __name__ == "__main__":
+    import plotly.express as px
+    import streamlit as st
+    from components.plotly_events import plotly_events
+
+    st.set_page_config(
+        page_title="Plotly Events",
+        page_icon=":bar_chart:",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
+
+    def get_plotly_events(fig):
+        return plotly_events(
+            fig, click_event=True, select_event=True, key="selected_points"
+        )
+
+    def main():
+        st.title("Plotly Events")
+
+        df = px.data.iris()
+        fig = px.scatter(
+            df,
+            x="sepal_width",
+            y="sepal_length",
+            title="Sample Figure",
+        )
+        fig["layout"]["uirevision"] = True
+
+        value = get_plotly_events(fig)
+        plot_value_holder = st.empty()
+        plot_value_holder.write(value)
+
+    main()

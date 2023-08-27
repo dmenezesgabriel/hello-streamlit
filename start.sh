@@ -34,7 +34,10 @@ create_virtual_environment() {
 start_dashboard() {
   echo "Starting Streamlit Dashboard..."
   echo "Environment: $ENV"
-  PYTHONDONTWRITEBYTECODE=1 ENV=$ENV $PYTHON_VENV_EXECUTABLE -m streamlit run $DASHBOARD_FILE
+  PYTHONDONTWRITEBYTECODE=1 \
+  ENV=$ENV \
+  $PYTHON_VENV_EXECUTABLE -m streamlit run $DASHBOARD_FILE \
+  --logger.level=debug
 }
 
 # Main script
