@@ -3,7 +3,7 @@ import {
   StreamlitComponentBase,
   withStreamlitConnection,
 } from "streamlit-component-lib"
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 import Plot from "react-plotly.js"
 
 class PlotlyEvents extends StreamlitComponentBase {
