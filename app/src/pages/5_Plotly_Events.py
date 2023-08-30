@@ -3,7 +3,7 @@ import streamlit as st
 from components.plotly_events.src import plotly_events
 
 st.set_page_config(
-    page_title="Plotly Events",
+    page_title="React Plotly events component",
     page_icon=":bar_chart:",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -17,7 +17,7 @@ def get_plotly_events(fig):
 
 
 def main():
-    st.title("Plotly Events")
+    st.title("React Plotly events component")
 
     df = px.data.iris()
     fig = px.scatter(
