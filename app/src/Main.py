@@ -179,6 +179,22 @@ def render_dataframe_ui():
     st.table(edited_df)
 
 
+def render_json_ui():
+    st.header("JSON", help="This is a tooltip", divider="gray")
+    st.json(
+        {
+            "foo": "bar",
+            "baz": "boz",
+            "stuff": [
+                "stuff 1",
+                "stuff 2",
+                "stuff 3",
+                "stuff 5",
+            ],
+        }
+    )
+
+
 def render_metric_ui():
     st.header("Metrics", help="This is a tooltip", divider="blue")
     col1, col2, col3, col4 = st.columns(4)
@@ -197,6 +213,7 @@ def main():
     render_text_ui()
     render_dataframe_ui()
     render_metric_ui()
+    render_json_ui()
 
 
 main()
