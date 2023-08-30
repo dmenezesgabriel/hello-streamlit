@@ -84,7 +84,7 @@ fig_states_revenue_map = px.scatter_geo(
     hover_name="Local da compra",
     hover_data={"lat": False, "lon": False},
     size_max=50,
-    template="seaborn",
+    template="plotly",
     title="Receita por Estado",
 )
 

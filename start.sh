@@ -3,9 +3,9 @@
 # Define variables
 ENV=DEVELOPMENT
 PYTHONDONTWRITEBYTECODE=1
-PYTHON_EXECUTABLE="/usr/bin/python3"
+PYTHON_EXECUTABLE="python"
 PYTHON_VENV_EXECUTABLE=""
-DASHBOARD_FILE="app/src/Dashboard.py"
+DASHBOARD_FILE="app/src/Main.py"
 REQUIREMENTS_FILE="app/requirements.txt"
 
 # Define functions
@@ -16,6 +16,8 @@ set_PYTHON_VENV_EXECUTABLE() {
     PYTHON_VENV_EXECUTABLE=venv/Scripts/python
   elif [ "$(uname -s)" = "Darwin" ]; then
     PYTHON_VENV_EXECUTABLE=venv/bin/python
+  elif [[ "$(uname -s)" = "MINGW64"* ]]; then
+    PYTHON_VENV_EXECUTABLE=venv/Scripts/python
   else
     echo "Unsupported operating system"
     exit 1
