@@ -1,6 +1,7 @@
 import random
 from datetime import datetime, time
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -231,12 +232,26 @@ def render_chart_ui():
     st.bar_chart(data)
 
 
+def render_matplotlib_ui():
+    st.header("Matplotlib", help="This is a tooltip", divider="green")
+
+    col1, col2, col3 = st.columns(3)
+
+    arr = np.random.normal(1, 1, size=100)
+    fig, ax = plt.subplots()
+    ax.hist(arr, bins=20)
+
+    with col1:
+        st.pyplot(fig, clear_figure=True, use_container_width=True)
+
+
 def main():
     render_text_ui()
     render_dataframe_ui()
     render_json_ui()
     render_metric_ui()
     render_chart_ui()
+    render_matplotlib_ui()
 
 
 main()
