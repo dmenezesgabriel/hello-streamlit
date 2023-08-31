@@ -111,7 +111,6 @@ def render_dataframe_ui():
                 "App name",
                 validate="^[a-z]",
                 help="Only String characters are allowed",
-                required=True,
             ),
             "stars": st.column_config.NumberColumn(
                 "Github stars",
@@ -209,11 +208,35 @@ def render_metric_ui():
         st.metric(label="Wind", value="10 km/h", delta="2 km/h")
 
 
+@st.cache_data
+def get_random_chart_data():
+    return pd.DataFrame(
+        np.random.randn(20, 3),
+        columns=["a", "b", "c"],
+    )
+
+
+def render_chart_ui():
+    st.header("Native Charts", help="This is a tooltip", divider="violet")
+    data = get_random_chart_data()
+
+    with st.expander("data"):
+        st.dataframe(data)
+
+    st.subheader("Line Chart")
+    st.line_chart(data)
+    st.subheader("Area Chart")
+    st.area_chart(data)
+    st.subheader("Bar Chart")
+    st.bar_chart(data)
+
+
 def main():
     render_text_ui()
     render_dataframe_ui()
-    render_metric_ui()
     render_json_ui()
+    render_metric_ui()
+    render_chart_ui()
 
 
 main()
