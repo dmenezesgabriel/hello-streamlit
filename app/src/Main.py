@@ -262,6 +262,9 @@ def render_altair_basic_ui():
 
     source = data.cars()
 
+    with st.expander("data"):
+        st.dataframe(source)
+
     chart = (
         alt.Chart(source)
         .mark_circle()
@@ -280,6 +283,9 @@ def render_altair_advanced_ui():
     st.header("Altair advanced", help="This is a tooltip", divider="red")
 
     source = data.seattle_weather()
+
+    with st.expander("data"):
+        st.dataframe(source)
 
     scale = alt.Scale(
         domain=["sun", "fog", "drizzle", "rain", "snow"],
