@@ -462,3 +462,69 @@ def render_bokeh_ui():
     p.line(x, y, legend_label="Temp.", line_width=2)
 
     st.bokeh_chart(p, use_container_width=True)
+
+
+def render_input_widgets_ui():
+    st.header("Input Widgets", help="This is a tooltip", divider="gray")
+
+    st.subheader("Button")
+
+    tab1, tab2, tab3, tab4, tab5 = st.columns(5)
+
+    with tab1:
+        st.button(
+            "Click me",
+            type="primary",
+            help="This is a tooltip",
+            key="btn-pimary",
+        )
+    with tab2:
+        st.button(
+            "Click me",
+            type="secondary",
+            help="This is a tooltip",
+            key="btn-secondary",
+        )
+    with tab3:
+        st.button(
+            "Click me",
+            disabled=True,
+            help="This is a tooltip",
+            key="btn-disabled",
+        )
+
+    st.subheader("Checkbox")
+    st.checkbox("Check me out")
+
+    st.subheader("Radio")
+    st.radio("Radio", ["foo", "bar", "baz"])
+
+    st.subheader("Selectbox")
+    st.selectbox("Selectbox", ["foo", "bar", "baz"])
+
+    st.subheader("Multiselect")
+    st.multiselect("Multiselect", ["foo", "bar", "baz"])
+
+    st.subheader("Slider")
+    st.slider("Slider")
+
+    st.subheader("Text Input")
+    st.text_input("Text Input")
+
+    st.subheader("Number Input")
+    st.number_input("Number Input")
+
+    st.subheader("Text Area")
+    st.text_area("Text Area")
+
+    st.subheader("Date Input")
+    st.date_input("Date Input")
+
+    st.subheader("Time Input")
+    st.time_input("Time Input")
+
+    st.subheader("File Uploader")
+    st.file_uploader("File Uploader")
+
+    st.subheader("Color Picker")
+    st.color_picker("Color Picker")
