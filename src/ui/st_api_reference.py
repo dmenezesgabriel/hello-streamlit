@@ -5,7 +5,10 @@ import altair as alt
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import plotly.figure_factory as ff
 import streamlit as st
+from bokeh.plotting import figure
+from plotly import express as px
 from vega_datasets import data
 
 
@@ -253,6 +256,8 @@ def render_altair_basic_ui():
 
     st.altair_chart(chart, use_container_width=True)
 
+    # Theme
+
     source = data.cars()
 
     with st.expander("data"):
@@ -330,6 +335,10 @@ def render_altair_advanced_ui():
 def render_vega_lite_ui():
     st.header("Vega Lite", help="This is a tooltip", divider="gray")
 
+    st.write(
+        "Vega-Lite is a high-level grammar of interactive graphics. It comes bundled with the Python API of Altair."
+    )
+
     chart_data = pd.DataFrame(np.random.randn(200, 3), columns=["a", "b", "c"])
 
     st.vega_lite_chart(
@@ -344,3 +353,112 @@ def render_vega_lite_ui():
             },
         },
     )
+
+    # Theme
+    source = data.cars()
+
+    chart = {
+        "mark": "point",
+        "encoding": {
+            "x": {
+                "field": "Horsepower",
+                "type": "quantitative",
+            },
+            "y": {
+                "field": "Miles_per_Gallon",
+                "type": "quantitative",
+            },
+            "color": {"field": "Origin", "type": "nominal"},
+            "shape": {"field": "Origin", "type": "nominal"},
+        },
+    }
+
+    tab1, tab2 = st.tabs(
+        ["Streamlit theme (default)", "Vega-Lite native theme"]
+    )
+
+    with tab1:
+        # Use the Streamlit theme.
+        # This is the default. So you can also omit the theme argument.
+        st.vega_lite_chart(
+            source, chart, theme="streamlit", use_container_width=True
+        )
+    with tab2:
+        st.vega_lite_chart(source, chart, theme=None, use_container_width=True)
+
+
+def render_plotly_ui():
+    st.header("Plotly", help="This is a tooltip", divider="gray")
+
+    x1 = np.random.randn(200) - 2
+    x2 = np.random.randn(200)
+    x3 = np.random.randn(200) + 2
+
+    hist_data = [x1, x2, x3]
+
+    group_labels = ["Group 1", "Group 2", "Group 3"]
+
+    fig = ff.create_distplot(
+        hist_data,
+        group_labels,
+        bin_size=[0.1, 0.25, 0.5],
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    #  Theme
+    df = px.data.gapminder()
+
+    fig = px.scatter(
+        df.query("year==2007"),
+        x="gdpPercap",
+        y="lifeExp",
+        size="pop",
+        color="continent",
+        hover_name="country",
+        log_x=True,
+        size_max=60,
+    )
+
+    tab1, tab2 = st.tabs(["Streamlit theme", "Plotly native theme"])
+
+    with tab1:
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
+    with tab2:
+        st.plotly_chart(fig, theme=None, use_container_width=True)
+
+    df = px.data.iris()
+
+    fig = px.scatter(
+        df,
+        x="sepal_width",
+        y="sepal_length",
+        color="sepal_length",
+        color_continuous_scale="reds",
+    )
+
+    tab1, tab2 = st.tabs(["Streamlit theme", "Plotly native theme"])
+
+    with tab1:
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
+    with tab2:
+        st.plotly_chart(fig, theme=None, use_container_width=True)
+
+
+def render_bokeh_ui():
+    st.header("Bokeh", help="This is a tooltip", divider="gray")
+
+    x = [1, 2, 3, 4, 5]
+    y = [6, 7, 2, 4, 5]
+
+    p = figure(
+        title="simple line example",
+        x_axis_label="x",
+        y_axis_label="y",
+    )
+
+    p.line(x, y, legend_label="Temp.", line_width=2)
+
+    st.bokeh_chart(p, use_container_width=True)
