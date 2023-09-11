@@ -464,14 +464,13 @@ def render_bokeh_ui():
     st.bokeh_chart(p, use_container_width=True)
 
 
-def render_input_widgets_ui():
-    st.header("Input Widgets", help="This is a tooltip", divider="gray")
-
+def render_button_input_widget_ui():
     st.subheader("Button")
 
     tab1, tab2, tab3, tab4, tab5 = st.columns(5)
 
     with tab1:
+        st.write("Primary")
         st.button(
             "Click me",
             type="primary",
@@ -479,6 +478,7 @@ def render_input_widgets_ui():
             key="btn-pimary",
         )
     with tab2:
+        st.write("Secondary")
         st.button(
             "Click me",
             type="secondary",
@@ -486,12 +486,42 @@ def render_input_widgets_ui():
             key="btn-secondary",
         )
     with tab3:
+        st.write("Disabled")
         st.button(
-            "Click me",
+            "Can't click me",
             disabled=True,
             help="This is a tooltip",
-            key="btn-disabled",
+            key="btn-disaled",
         )
+
+    with tab4:
+        st.write("Button return")
+        should_smile = st.button(
+            "Smile",
+            help="This is a tooltip",
+            key="btn-smile",
+        )
+        if should_smile:
+            st.write(":smile:")
+
+    with tab5:
+        st.write("Button on click")
+        click_placeholder = st.empty()
+
+        st.button(
+            "Click me",
+            type="primary",
+            help="This is a tooltip",
+            key="btn-click",
+            on_click=lambda x, y: click_placeholder.write(f"Clicked! {x} {y}"),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+
+def render_input_widgets_ui():
+    st.header("Input Widgets", help="This is a tooltip", divider="gray")
+    render_button_input_widget_ui()
 
     st.subheader("Checkbox")
     st.checkbox("Check me out")
