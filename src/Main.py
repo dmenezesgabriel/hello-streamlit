@@ -334,6 +334,24 @@ def render_altair_advanced_ui():
     st.altair_chart(chart, theme="streamlit", use_container_width=True)
 
 
+def render_vega_lite_ui():
+    st.header("Vega Lite", help="This is a tooltip", divider="gray")
+
+    chart_data = pd.DataFrame(
+    np.random.randn(200, 3),
+    columns=['a', 'b', 'c'])
+
+    st.vega_lite_chart(chart_data, {
+        'mark': {'type': 'circle', 'tooltip': True},
+        'encoding': {
+            'x': {'field': 'a', 'type': 'quantitative'},
+            'y': {'field': 'b', 'type': 'quantitative'},
+            'size': {'field': 'c', 'type': 'quantitative'},
+            'color': {'field': 'c', 'type': 'quantitative'},
+        },
+    })
+
+
 def main():
     render_text_ui()
     render_dataframe_ui()
@@ -343,6 +361,7 @@ def main():
     render_matplotlib_ui()
     render_altair_basic_ui()
     render_altair_advanced_ui()
+    render_vega_lite_ui()
 
 
 main()

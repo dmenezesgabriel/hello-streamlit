@@ -28,9 +28,12 @@ create_virtual_environment() {
   if [ ! -d "venv" ]; then
     echo "Creating virtual environment..."
     $PYTHON_EXECUTABLE -m venv venv
-    echo "Installing requirements..."
-    $PYTHON_VENV_EXECUTABLE -m pip install -r $REQUIREMENTS_FILE
   fi
+}
+
+install_dependencies() {
+  echo "Installing dependencies..."
+  $PYTHON_VENV_EXECUTABLE -m pip install -q -r $REQUIREMENTS_FILE
 }
 
 start_dashboard() {
@@ -45,4 +48,5 @@ start_dashboard() {
 # Main script
 set_PYTHON_VENV_EXECUTABLE
 create_virtual_environment
+install_dependencies
 start_dashboard
