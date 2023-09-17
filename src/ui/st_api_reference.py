@@ -522,7 +522,7 @@ def render_button_input_widget_ui():
 def render_download_button_input_widget_ui():
     st.subheader("Download Button")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.write("Download CSV")
@@ -557,11 +557,22 @@ def render_download_button_input_widget_ui():
             key="btn-download-txt",
         )
 
+    with col4:
+        st.write("Download HTML")
+        st.download_button(
+            "Download",
+            data="<h1>Hello, World!</h1>",
+            mime="text/html",
+            file_name="data.html",
+            help="This is a tooltip",
+            key="btn-download-html",
+        )
+
 
 def render_checkbox_input_widget_ui():
     st.subheader("Checkbox")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.write("Checkbox checked")
@@ -597,11 +608,20 @@ def render_checkbox_input_widget_ui():
             kwargs={"y": "bar"},
         )
 
+    with col4:
+        st.write("Checkbox disabled")
+        st.checkbox(
+            "Check me out",
+            help="This is a tooltip",
+            key="checkbox-disabled",
+            disabled=True,
+        )
+
 
 def render_toggle_widget_ui():
     st.subheader("Toggle")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.write("Toggle checked")
@@ -635,6 +655,15 @@ def render_toggle_widget_ui():
             ),
             args=("foo",),
             kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Toggle disabled")
+        st.toggle(
+            "Toggle me",
+            help="This is a tooltip",
+            key="toggle-disabled",
+            disabled=True,
         )
 
 
@@ -683,7 +712,7 @@ def render_radio_input_widget_ui():
                 f"Changed! {x} {y}"
             ),
             args=("foo",),
-            kwargs={"y": "bar", "z": "baz"},
+            kwargs={"y": "bar"},
         )
 
     with col4:
@@ -713,7 +742,65 @@ def render_radio_input_widget_ui():
             ["foo", "bar", "baz"],
             help="This is a tooltip",
             key="radio-captions",
-            captions=["foo", "bar", "baz"],
+            captions=["foo", "bar"],
+        )
+
+
+def render_selectbox_input_widget_ui():
+    st.subheader("Selectbox")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Selectbox")
+        st.selectbox(
+            "Selectbox",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="selectbox",
+        )
+
+    with col2:
+        st.write("Selectbox return")
+        emojis = st.selectbox(
+            "Selectbox",
+            [":smile:", ":umbrella:", ":rocket:"],
+            help="This is a tooltip",
+            key="selectbox-smile",
+        )
+        if emojis == ":smile:":
+            st.write(":smile:")
+        elif emojis == ":umbrella:":
+            st.write(":umbrella:")
+        elif emojis == ":rocket:":
+            st.write(":rocket:")
+        else:
+            st.write("")
+
+    with col3:
+        st.write("Selectbox on change")
+        change_placeholder = st.empty()
+
+        st.selectbox(
+            "Selectbox",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="selectbox-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Selectbox disabled")
+        st.selectbox(
+            "Selectbox",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="selectbox-disabled",
+            disabled=True,
         )
 
 
@@ -724,9 +811,7 @@ def render_input_widgets_ui():
     render_checkbox_input_widget_ui()
     render_toggle_widget_ui()
     render_radio_input_widget_ui()
-
-    st.subheader("Selectbox")
-    st.selectbox("Selectbox", ["foo", "bar", "baz"])
+    render_selectbox_input_widget_ui()
 
     st.subheader("Multiselect")
     st.multiselect("Multiselect", ["foo", "bar", "baz"])
