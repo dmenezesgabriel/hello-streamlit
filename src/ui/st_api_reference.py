@@ -497,7 +497,7 @@ def render_button_input_widget_ui():
     with tab4:
         st.write("Button return")
         should_smile = st.button(
-            "Smile",
+            ":rainbow[Smile]",
             help="This is a tooltip",
             key="btn-smile",
         )
@@ -519,9 +519,49 @@ def render_button_input_widget_ui():
         )
 
 
+def render_download_button_input_widget_ui():
+    st.subheader("Download Button")
+
+    tab1, tab2, tab3 = st.columns(3)
+
+    with tab1:
+        st.write("Download CSV")
+        st.download_button(
+            "Download",
+            data="foo,bar,baz",
+            mime="text/csv",
+            file_name="data.csv",
+            help="This is a tooltip",
+            key="btn-download-csv",
+        )
+
+    with tab2:
+        st.write("Download JSON")
+        st.download_button(
+            "Download",
+            data='{"foo": "bar"}',
+            mime="application/json",
+            file_name="data.json",
+            help="This is a tooltip",
+            key="btn-download-json",
+        )
+
+    with tab3:
+        st.write("Download text")
+        st.download_button(
+            "Download",
+            data="Hello, World!",
+            mime="text/plain",
+            file_name="data.txt",
+            help="This is a tooltip",
+            key="btn-download-txt",
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
+    render_download_button_input_widget_ui()
 
     st.subheader("Checkbox")
     st.checkbox("Check me out")
