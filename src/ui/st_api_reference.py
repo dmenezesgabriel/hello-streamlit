@@ -467,9 +467,9 @@ def render_bokeh_ui():
 def render_button_input_widget_ui():
     st.subheader("Button")
 
-    tab1, tab2, tab3, tab4, tab5 = st.columns(5)
+    col1, col2, col3, col4, col5 = st.columns(5)
 
-    with tab1:
+    with col1:
         st.write("Primary")
         st.button(
             "Click me",
@@ -477,7 +477,7 @@ def render_button_input_widget_ui():
             help="This is a tooltip",
             key="btn-pimary",
         )
-    with tab2:
+    with col2:
         st.write("Secondary")
         st.button(
             "Click me",
@@ -485,7 +485,7 @@ def render_button_input_widget_ui():
             help="This is a tooltip",
             key="btn-secondary",
         )
-    with tab3:
+    with col3:
         st.write("Disabled")
         st.button(
             "Can't click me",
@@ -494,7 +494,7 @@ def render_button_input_widget_ui():
             key="btn-disaled",
         )
 
-    with tab4:
+    with col4:
         st.write("Button return")
         should_smile = st.button(
             ":rainbow[Smile]",
@@ -504,7 +504,7 @@ def render_button_input_widget_ui():
         if should_smile:
             st.write(":smile:")
 
-    with tab5:
+    with col5:
         st.write("Button on click")
         click_placeholder = st.empty()
 
@@ -522,9 +522,9 @@ def render_button_input_widget_ui():
 def render_download_button_input_widget_ui():
     st.subheader("Download Button")
 
-    tab1, tab2, tab3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with tab1:
+    with col1:
         st.write("Download CSV")
         st.download_button(
             "Download",
@@ -535,7 +535,7 @@ def render_download_button_input_widget_ui():
             key="btn-download-csv",
         )
 
-    with tab2:
+    with col2:
         st.write("Download JSON")
         st.download_button(
             "Download",
@@ -546,7 +546,7 @@ def render_download_button_input_widget_ui():
             key="btn-download-json",
         )
 
-    with tab3:
+    with col3:
         st.write("Download text")
         st.download_button(
             "Download",
@@ -561,9 +561,9 @@ def render_download_button_input_widget_ui():
 def render_checkbox_input_widget_ui():
     st.subheader("Checkbox")
 
-    tab1, tab2, tab3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with tab1:
+    with col1:
         st.write("Checkbox checked")
         st.checkbox(
             "Check me out",
@@ -572,7 +572,7 @@ def render_checkbox_input_widget_ui():
             value=True,
         )
 
-    with tab2:
+    with col2:
         st.write("Checkbox return")
         should_smile = st.checkbox(
             ":rainbow[Smile]",
@@ -582,7 +582,7 @@ def render_checkbox_input_widget_ui():
         if should_smile:
             st.write(":smile:")
 
-    with tab3:
+    with col3:
         st.write("Checkbox on change")
         change_placeholder = st.empty()
 
@@ -601,9 +601,9 @@ def render_checkbox_input_widget_ui():
 def render_toggle_widget_ui():
     st.subheader("Toggle")
 
-    tab1, tab2, tab3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-    with tab1:
+    with col1:
         st.write("Toggle checked")
         st.toggle(
             "Toggle me",
@@ -612,7 +612,7 @@ def render_toggle_widget_ui():
             value=True,
         )
 
-    with tab2:
+    with col2:
         st.write("Toggle return")
         should_smile = st.toggle(
             ":rainbow[Smile]",
@@ -622,7 +622,7 @@ def render_toggle_widget_ui():
         if should_smile:
             st.write(":smile:")
 
-    with tab3:
+    with col3:
         st.write("Toggle on change")
         change_placeholder = st.empty()
 
@@ -638,15 +638,92 @@ def render_toggle_widget_ui():
         )
 
 
+def render_radio_input_widget_ui():
+    st.subheader("Radio")
+
+    col1, col2, col3, col4, col5, col6 = st.columns(6)
+
+    with col1:
+        st.write("Radio format function to upper")
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio",
+            format_func=lambda x: x.upper(),
+        )
+
+    with col2:
+        st.write("Radio return")
+        emojis = st.radio(
+            "Radio",
+            [":smile:", ":umbrella:", ":rocket:"],
+            help="This is a tooltip",
+            key="radio-smile",
+        )
+        if emojis == ":smile:":
+            st.write(":smile:")
+        elif emojis == ":umbrella:":
+            st.write(":umbrella:")
+        elif emojis == ":rocket:":
+            st.write(":rocket:")
+        else:
+            st.write("")
+
+    with col3:
+        st.write("Radio on change")
+        change_placeholder = st.empty()
+
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar", "z": "baz"},
+        )
+
+    with col4:
+        st.write("Radio disabled")
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio-disabled",
+            disabled=True,
+        )
+
+    with col5:
+        st.write("Radio horizontal")
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio-horizontal",
+            horizontal=True,
+        )
+
+    with col6:
+        st.write("Radio with captions")
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio-captions",
+            captions=["foo", "bar", "baz"],
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
     render_download_button_input_widget_ui()
     render_checkbox_input_widget_ui()
     render_toggle_widget_ui()
-
-    st.subheader("Radio")
-    st.radio("Radio", ["foo", "bar", "baz"])
+    render_radio_input_widget_ui()
 
     st.subheader("Selectbox")
     st.selectbox("Selectbox", ["foo", "bar", "baz"])
