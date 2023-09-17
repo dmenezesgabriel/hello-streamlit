@@ -292,7 +292,7 @@ def render_altair_advanced_ui():
 
     color = alt.Color("weather:N", scale=scale)
     brush = alt.selection_interval(encodings=["x"])
-    click = alt.selection_multi(encodings=["color"])
+    click = alt.selection_point(encodings=["color"])
 
     points = (
         alt.Chart()
@@ -558,13 +558,92 @@ def render_download_button_input_widget_ui():
         )
 
 
+def render_checkbox_input_widget_ui():
+    st.subheader("Checkbox")
+
+    tab1, tab2, tab3 = st.columns(3)
+
+    with tab1:
+        st.write("Checkbox checked")
+        st.checkbox(
+            "Check me out",
+            help="This is a tooltip",
+            key="checkbox",
+            value=True,
+        )
+
+    with tab2:
+        st.write("Checkbox return")
+        should_smile = st.checkbox(
+            ":rainbow[Smile]",
+            help="This is a tooltip",
+            key="checkbox-smile",
+        )
+        if should_smile:
+            st.write(":smile:")
+
+    with tab3:
+        st.write("Checkbox on change")
+        change_placeholder = st.empty()
+
+        st.checkbox(
+            "Check me out",
+            help="This is a tooltip",
+            key="checkbox-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+
+def render_toggle_widget_ui():
+    st.subheader("Toggle")
+
+    tab1, tab2, tab3 = st.columns(3)
+
+    with tab1:
+        st.write("Toggle checked")
+        st.toggle(
+            "Toggle me",
+            help="This is a tooltip",
+            key="toggle",
+            value=True,
+        )
+
+    with tab2:
+        st.write("Toggle return")
+        should_smile = st.toggle(
+            ":rainbow[Smile]",
+            help="This is a tooltip",
+            key="toggle-smile",
+        )
+        if should_smile:
+            st.write(":smile:")
+
+    with tab3:
+        st.write("Toggle on change")
+        change_placeholder = st.empty()
+
+        st.toggle(
+            "Toggle me",
+            help="This is a tooltip",
+            key="toggle-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
     render_download_button_input_widget_ui()
-
-    st.subheader("Checkbox")
-    st.checkbox("Check me out")
+    render_checkbox_input_widget_ui()
+    render_toggle_widget_ui()
 
     st.subheader("Radio")
     st.radio("Radio", ["foo", "bar", "baz"])
