@@ -467,7 +467,7 @@ def render_bokeh_ui():
 def render_button_input_widget_ui():
     st.subheader("Button")
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.write("Primary")
@@ -477,34 +477,7 @@ def render_button_input_widget_ui():
             help="This is a tooltip",
             key="btn-pimary",
         )
-    with col2:
-        st.write("Secondary")
-        st.button(
-            "Click me",
-            type="secondary",
-            help="This is a tooltip",
-            key="btn-secondary",
-        )
-    with col3:
-        st.write("Disabled")
-        st.button(
-            "Can't click me",
-            disabled=True,
-            help="This is a tooltip",
-            key="btn-disaled",
-        )
 
-    with col4:
-        st.write("Button return")
-        should_smile = st.button(
-            ":rainbow[Smile]",
-            help="This is a tooltip",
-            key="btn-smile",
-        )
-        if should_smile:
-            st.write(":smile:")
-
-    with col5:
         st.write("Button on click")
         click_placeholder = st.empty()
 
@@ -516,6 +489,31 @@ def render_button_input_widget_ui():
             on_click=lambda x, y: click_placeholder.write(f"Clicked! {x} {y}"),
             args=("foo",),
             kwargs={"y": "bar"},
+        )
+    with col2:
+        st.write("Secondary")
+        st.button(
+            "Click me",
+            type="secondary",
+            help="This is a tooltip",
+            key="btn-secondary",
+        )
+    with col3:
+        st.write("Button return")
+        should_smile = st.button(
+            ":rainbow[Smile]",
+            help="This is a tooltip",
+            key="btn-smile",
+        )
+        if should_smile:
+            st.write(":smile:")
+    with col4:
+        st.write("Disabled")
+        st.button(
+            "Can't click me",
+            disabled=True,
+            help="This is a tooltip",
+            key="btn-disaled",
         )
 
 
@@ -566,6 +564,7 @@ def render_download_button_input_widget_ui():
             file_name="data.html",
             help="This is a tooltip",
             key="btn-download-html",
+            disabled=True,
         )
 
 
@@ -670,7 +669,7 @@ def render_toggle_widget_ui():
 def render_radio_input_widget_ui():
     st.subheader("Radio")
 
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.write("Radio format function to upper")
@@ -680,6 +679,15 @@ def render_radio_input_widget_ui():
             help="This is a tooltip",
             key="radio",
             format_func=lambda x: x.upper(),
+        )
+
+        st.write("Radio horizontal")
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio-horizontal",
+            horizontal=True,
         )
 
     with col2:
@@ -698,6 +706,15 @@ def render_radio_input_widget_ui():
             st.write(":rocket:")
         else:
             st.write("")
+
+        st.write("Radio with captions")
+        st.radio(
+            "Radio",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="radio-captions",
+            captions=["foo", "bar"],
+        )
 
     with col3:
         st.write("Radio on change")
@@ -723,26 +740,6 @@ def render_radio_input_widget_ui():
             help="This is a tooltip",
             key="radio-disabled",
             disabled=True,
-        )
-
-    with col5:
-        st.write("Radio horizontal")
-        st.radio(
-            "Radio",
-            ["foo", "bar", "baz"],
-            help="This is a tooltip",
-            key="radio-horizontal",
-            horizontal=True,
-        )
-
-    with col6:
-        st.write("Radio with captions")
-        st.radio(
-            "Radio",
-            ["foo", "bar", "baz"],
-            help="This is a tooltip",
-            key="radio-captions",
-            captions=["foo", "bar"],
         )
 
 
