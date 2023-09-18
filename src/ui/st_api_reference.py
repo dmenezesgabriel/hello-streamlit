@@ -857,6 +857,93 @@ def render_multiselect_input_widget_ui():
         )
 
 
+def render_slider_input_widget_ui():
+    st.subheader("Slider")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Slider")
+        st.slider(
+            "Slider",
+            min_value=0,
+            max_value=100,
+            help="This is a tooltip",
+            key="slider",
+        )
+
+        st.write("Slider range")
+        values = st.slider(
+            "Slider",
+            min_value=0,
+            max_value=100,
+            help="This is a tooltip",
+            key="slider-range",
+            value=(25, 75),
+        )
+        st.write(values)
+
+    with col2:
+        st.write("Slider return")
+        values = st.slider(
+            "Slider",
+            min_value=0,
+            max_value=100,
+            help="This is a tooltip",
+            key="slider-return",
+        )
+        st.write(values)
+
+        st.write("Slider raged time")
+        values = st.slider(
+            "Slider",
+            min_value=time(0, 0),
+            max_value=time(23, 59),
+            help="This is a tooltip",
+            key="slider-range-time",
+            value=(time(12, 30), time(18, 0)),
+        )
+        st.write(values)
+
+    with col3:
+        st.write("Slider on change")
+        change_placeholder = st.empty()
+
+        st.slider(
+            "Slider",
+            min_value=0,
+            max_value=100,
+            help="This is a tooltip",
+            key="slider-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+        st.write("Slider ranged date time")
+        values = st.slider(
+            "Slider",
+            min_value=datetime(2021, 1, 1),
+            max_value=datetime(2025, 1, 1),
+            help="This is a tooltip",
+            key="slider-range-datetime",
+            value=(datetime(2022, 1, 1), datetime(2023, 1, 1)),
+        )
+
+    with col4:
+        st.write("Slider disabled")
+        st.slider(
+            "Slider",
+            min_value=0,
+            max_value=100,
+            help="This is a tooltip",
+            key="slider-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -866,9 +953,7 @@ def render_input_widgets_ui():
     render_radio_input_widget_ui()
     render_selectbox_input_widget_ui()
     render_multiselect_input_widget_ui()
-
-    st.subheader("Slider")
-    st.slider("Slider")
+    render_slider_input_widget_ui()
 
     st.subheader("Text Input")
     st.text_input("Text Input")
