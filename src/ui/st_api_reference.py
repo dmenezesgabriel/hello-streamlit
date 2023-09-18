@@ -944,6 +944,61 @@ def render_slider_input_widget_ui():
         )
 
 
+def render_text_input_ui():
+    st.subheader("Text Input")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Text Input")
+        st.text_input(
+            "Text Input",
+            help="This is a tooltip",
+            key="text-input",
+        )
+
+        st.write("Text Input password")
+        st.text_input(
+            "Text Input",
+            help="This is a tooltip",
+            key="text-input-password",
+            type="password",
+        )
+
+    with col2:
+        st.write("Text Input return")
+        value = st.text_input(
+            "Text Input",
+            help="This is a tooltip",
+            key="text-input-return",
+        )
+        st.write(value)
+
+    with col3:
+        st.write("Text Input on change")
+        change_placeholder = st.empty()
+
+        st.text_input(
+            "Text Input",
+            help="This is a tooltip",
+            key="text-input-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Text Input disabled")
+        st.text_input(
+            "Text Input",
+            help="This is a tooltip",
+            key="text-input-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -954,6 +1009,7 @@ def render_input_widgets_ui():
     render_selectbox_input_widget_ui()
     render_multiselect_input_widget_ui()
     render_slider_input_widget_ui()
+    render_text_input_ui()
 
     st.subheader("Text Input")
     st.text_input("Text Input")
