@@ -1361,6 +1361,18 @@ def render_image_media_element_ui():
     )
 
 
+def render_video_media_element_ui():
+    st.subheader("Video")
+
+    url = "https://www.youtube.com/watch?v=B2iAodr0fOo&t=2s"
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.video(url)
+
+
 def render_media_elements_ui():
     st.header("Media Elements", help="This is a tooltip", divider="gray")
     render_image_media_element_ui()
+    render_video_media_element_ui()
