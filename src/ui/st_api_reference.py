@@ -999,6 +999,69 @@ def render_text_input_ui():
         )
 
 
+def render_number_input_ui():
+    st.subheader("Number Input")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Number Input")
+        st.number_input(
+            "Number Input",
+            help="This is a tooltip",
+            min_value=0,
+            max_value=100,
+            value=50,
+            step=1,
+            key="number-input",
+        )
+
+    with col2:
+        st.write("Number Input return")
+        value = st.number_input(
+            "Number Input",
+            help="This is a tooltip",
+            min_value=0,
+            max_value=100,
+            value=50,
+            step=1,
+            key="number-input-return",
+        )
+        st.write(value)
+
+    with col3:
+        st.write("Number Input on change")
+        change_placeholder = st.empty()
+
+        st.number_input(
+            "Number Input",
+            help="This is a tooltip",
+            min_value=0,
+            max_value=100,
+            value=50,
+            step=1,
+            key="number-input-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Number Input disabled")
+        st.number_input(
+            "Number Input",
+            help="This is a tooltip",
+            min_value=0,
+            max_value=100,
+            value=50,
+            step=1,
+            key="number-input-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -1010,12 +1073,7 @@ def render_input_widgets_ui():
     render_multiselect_input_widget_ui()
     render_slider_input_widget_ui()
     render_text_input_ui()
-
-    st.subheader("Text Input")
-    st.text_input("Text Input")
-
-    st.subheader("Number Input")
-    st.number_input("Number Input")
+    render_number_input_ui()
 
     st.subheader("Text Area")
     st.text_area("Text Area")
