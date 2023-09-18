@@ -944,7 +944,7 @@ def render_slider_input_widget_ui():
         )
 
 
-def render_text_input_ui():
+def render_text_input_widget_ui():
     st.subheader("Text Input")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -999,7 +999,7 @@ def render_text_input_ui():
         )
 
 
-def render_number_input_ui():
+def render_number_input_widget_ui():
     st.subheader("Number Input")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -1062,7 +1062,7 @@ def render_number_input_ui():
         )
 
 
-def render_text_area_input_ui():
+def render_text_area_input_widget_ui():
     st.subheader("Text Area")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -1109,7 +1109,7 @@ def render_text_area_input_ui():
         )
 
 
-def render_date_input_ui():
+def render_date_input_widget_ui():
     st.subheader("Date Input")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -1172,7 +1172,7 @@ def render_date_input_ui():
         )
 
 
-def render_time_input_ui():
+def render_time_input_widget_ui():
     st.subheader("Time Input")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -1224,6 +1224,61 @@ def render_time_input_ui():
         )
 
 
+def render_file_uploader_widget_ui():
+    st.subheader("File Uploader")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("File Uploader")
+        st.file_uploader(
+            "File Uploader",
+            help="This is a tooltip",
+            key="file-uploader",
+        )
+
+        st.write("File Uploader multiple")
+        st.file_uploader(
+            "File Uploader",
+            help="This is a tooltip",
+            key="file-uploader-multiple",
+            accept_multiple_files=True,
+        )
+
+    with col2:
+        st.write("File Uploader return")
+        value = st.file_uploader(
+            "File Uploader",
+            help="This is a tooltip",
+            key="file-uploader-return",
+        )
+        st.write(value)
+
+    with col3:
+        st.write("File Uploader on change")
+        change_placeholder = st.empty()
+
+        st.file_uploader(
+            "File Uploader",
+            help="This is a tooltip",
+            key="file-uploader-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("File Uploader disabled")
+        st.file_uploader(
+            "File Uploader",
+            help="This is a tooltip",
+            key="file-uploader-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -1234,14 +1289,12 @@ def render_input_widgets_ui():
     render_selectbox_input_widget_ui()
     render_multiselect_input_widget_ui()
     render_slider_input_widget_ui()
-    render_text_input_ui()
-    render_number_input_ui()
-    render_text_area_input_ui()
-    render_date_input_ui()
-    render_time_input_ui()
-
-    st.subheader("File Uploader")
-    st.file_uploader("File Uploader")
+    render_text_input_widget_ui()
+    render_number_input_widget_ui()
+    render_text_area_input_widget_ui()
+    render_date_input_widget_ui()
+    render_time_input_widget_ui()
+    render_file_uploader_widget_ui()
 
     st.subheader("Color Picker")
     st.color_picker("Color Picker")
