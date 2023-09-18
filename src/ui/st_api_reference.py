@@ -6,8 +6,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotly.figure_factory as ff
+import requests
 import streamlit as st
 from bokeh.plotting import figure
+from PIL import Image
 from plotly import express as px
 from vega_datasets import data
 
@@ -1343,3 +1345,22 @@ def render_input_widgets_ui():
     render_time_input_widget_ui()
     render_file_uploader_widget_ui()
     render_color_picker_widget_ui()
+
+
+def render_image_media_element_ui():
+    st.subheader("Image")
+
+    url = "https://static.streamlit.io/examples/cat.jpg"
+    req = requests.get(url, stream=True)
+    image = Image.open(req.raw)
+
+    st.image(
+        image,
+        caption="Random Cat",
+        width=100,
+    )
+
+
+def render_media_elements_ui():
+    st.header("Media Elements", help="This is a tooltip", divider="gray")
+    render_image_media_element_ui()
