@@ -461,7 +461,7 @@ def render_bokeh_ui():
 
     p.line(x, y, legend_label="Temp.", line_width=2)
 
-    st.bokeh_chart(p, use_container_width=True)
+    st.bokeh_chart(p, use_container_width=False)
 
 
 def render_button_input_widget_ui():
@@ -801,6 +801,62 @@ def render_selectbox_input_widget_ui():
         )
 
 
+def render_multiselect_input_widget_ui():
+    st.subheader("Multiselect")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Multiselect")
+        st.multiselect(
+            "Multiselect",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="multiselect",
+        )
+
+    with col2:
+        st.write("Multiselect return")
+        selected = st.multiselect(
+            "Multiselect",
+            [":smile:", ":umbrella:", ":rocket:"],
+            help="This is a tooltip",
+            key="multiselect-smile",
+        )
+        if ":smile:" in selected:
+            st.write(":smile:")
+        if ":umbrella:" in selected:
+            st.write(":umbrella:")
+        if ":rocket:" in selected:
+            st.write(":rocket:")
+
+    with col3:
+        st.write("Multiselect on change")
+        change_placeholder = st.empty()
+
+        foo = st.multiselect(
+            "Multiselect",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="multiselect-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Multiselect disabled")
+        st.multiselect(
+            "Multiselect",
+            ["foo", "bar", "baz"],
+            help="This is a tooltip",
+            key="multiselect-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -809,9 +865,7 @@ def render_input_widgets_ui():
     render_toggle_widget_ui()
     render_radio_input_widget_ui()
     render_selectbox_input_widget_ui()
-
-    st.subheader("Multiselect")
-    st.multiselect("Multiselect", ["foo", "bar", "baz"])
+    render_multiselect_input_widget_ui()
 
     st.subheader("Slider")
     st.slider("Slider")
