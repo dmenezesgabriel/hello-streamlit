@@ -1279,6 +1279,53 @@ def render_file_uploader_widget_ui():
         )
 
 
+def render_color_picker_widget_ui():
+    st.subheader("Color Picker")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Color Picker")
+        st.color_picker(
+            "Color Picker",
+            help="This is a tooltip",
+            key="color-picker",
+        )
+
+    with col2:
+        st.write("Color Picker return")
+        value = st.color_picker(
+            "Color Picker",
+            help="This is a tooltip",
+            key="color-picker-return",
+        )
+        st.write(value)
+
+    with col3:
+        st.write("Color Picker on change")
+        change_placeholder = st.empty()
+
+        st.color_picker(
+            "Color Picker",
+            help="This is a tooltip",
+            key="color-picker-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Color Picker disabled")
+        st.color_picker(
+            "Color Picker",
+            help="This is a tooltip",
+            key="color-picker-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -1295,6 +1342,4 @@ def render_input_widgets_ui():
     render_date_input_widget_ui()
     render_time_input_widget_ui()
     render_file_uploader_widget_ui()
-
-    st.subheader("Color Picker")
-    st.color_picker("Color Picker")
+    render_color_picker_widget_ui()
