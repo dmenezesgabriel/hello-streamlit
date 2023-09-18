@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 
 import altair as alt
 import matplotlib.pyplot as plt
@@ -1172,6 +1172,58 @@ def render_date_input_ui():
         )
 
 
+def render_time_input_ui():
+    st.subheader("Time Input")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Time Input")
+        st.time_input(
+            "Time Input",
+            help="This is a tooltip",
+            value=time(12, 30),
+            step=timedelta(minutes=15),
+            key="time-input",
+        )
+
+    with col2:
+        st.write("Time Input return")
+        value = st.time_input(
+            "Time Input",
+            help="This is a tooltip",
+            value=time(12, 30),
+            key="time-input-return",
+        )
+        st.write(value)
+
+    with col3:
+        st.write("Time Input on change")
+        change_placeholder = st.empty()
+
+        st.time_input(
+            "Time Input",
+            help="This is a tooltip",
+            value=time(12, 30),
+            key="time-input-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Time Input disabled")
+        st.time_input(
+            "Time Input",
+            help="This is a tooltip",
+            value=time(12, 30),
+            key="time-input-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -1186,9 +1238,7 @@ def render_input_widgets_ui():
     render_number_input_ui()
     render_text_area_input_ui()
     render_date_input_ui()
-
-    st.subheader("Time Input")
-    st.time_input("Time Input")
+    render_time_input_ui()
 
     st.subheader("File Uploader")
     st.file_uploader("File Uploader")
