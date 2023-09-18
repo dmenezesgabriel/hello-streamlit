@@ -1109,6 +1109,69 @@ def render_text_area_input_ui():
         )
 
 
+def render_date_input_ui():
+    st.subheader("Date Input")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.write("Date Input")
+        st.date_input(
+            "Date Input",
+            help="This is a tooltip",
+            min_value=datetime(2021, 1, 1),
+            max_value=datetime(2025, 1, 1),
+            value=datetime(2022, 1, 1),
+            format="YYYY/MM/DD",
+            key="date-input",
+        )
+
+    with col2:
+        st.write("Date Input return")
+        value = st.date_input(
+            "Date Input",
+            help="This is a tooltip",
+            min_value=datetime(2021, 1, 1),
+            max_value=datetime(2025, 1, 1),
+            value=datetime(2022, 1, 1),
+            format="YYYY/MM/DD",
+            key="date-input-return",
+        )
+        st.write(value)
+
+    with col3:
+        st.write("Date Input on change")
+        change_placeholder = st.empty()
+
+        st.date_input(
+            "Date Input",
+            help="This is a tooltip",
+            min_value=datetime(2021, 1, 1),
+            max_value=datetime(2025, 1, 1),
+            value=datetime(2022, 1, 1),
+            format="YYYY/MM/DD",
+            key="date-input-change",
+            on_change=lambda x, y: change_placeholder.write(
+                f"Changed! {x} {y}"
+            ),
+            args=("foo",),
+            kwargs={"y": "bar"},
+        )
+
+    with col4:
+        st.write("Date Input disabled")
+        st.date_input(
+            "Date Input",
+            help="This is a tooltip",
+            min_value=datetime(2021, 1, 1),
+            max_value=datetime(2025, 1, 1),
+            value=datetime(2022, 1, 1),
+            format="YYYY/MM/DD",
+            key="date-input-disabled",
+            disabled=True,
+        )
+
+
 def render_input_widgets_ui():
     st.header("Input Widgets", help="This is a tooltip", divider="gray")
     render_button_input_widget_ui()
@@ -1122,9 +1185,7 @@ def render_input_widgets_ui():
     render_text_input_ui()
     render_number_input_ui()
     render_text_area_input_ui()
-
-    st.subheader("Date Input")
-    st.date_input("Date Input")
+    render_date_input_ui()
 
     st.subheader("Time Input")
     st.time_input("Time Input")
