@@ -1,5 +1,6 @@
+import datetime
 import random
-from datetime import datetime, time, timedelta
+import time
 
 import altair as alt
 import matplotlib.pyplot as plt
@@ -87,14 +88,14 @@ def render_dataframe_ui():
                 "📊 Data Exploration",
             ],
             "appointment": [
-                datetime(2024, 2, 5, 12, 30),
-                datetime(2023, 11, 10, 18, 0),
-                datetime(2024, 3, 11, 20, 10),
+                datetime.datetime(2024, 2, 5, 12, 30),
+                datetime.datetime(2023, 11, 10, 18, 0),
+                datetime.datetime(2024, 3, 11, 20, 10),
             ],
             "time": [
-                time(12, 30),
-                time(18, 0),
-                time(9, 10),
+                datetime.time(12, 30),
+                datetime.time(18, 0),
+                datetime.time(9, 10),
             ],
             "images": [
                 "https://storage.googleapis.com/s4a-prod-share-preview/default/st_app_screenshot_image/5435b8cb-6c6c-490b-9608-799b543655d3/Home_Page.png",
@@ -143,15 +144,15 @@ def render_dataframe_ui():
             ),
             "appointment": st.column_config.DatetimeColumn(
                 "datetime",
-                min_value=datetime(2021, 1, 1),
-                max_value=datetime(2025, 1, 1),
+                min_value=datetime.datetime(2021, 1, 1),
+                max_value=datetime.datetime(2025, 1, 1),
                 format="YYYY/MM/DD - hh:mm",
                 help="This is a tooltip",
             ),
             "time": st.column_config.TimeColumn(
                 "time",
-                min_value=time(0, 0),
-                max_value=time(23, 59),
+                min_value=datetime.time(0, 0),
+                max_value=datetime.time(23, 59),
                 format="hh:mm a",
                 help="This is a tooltip",
             ),
@@ -899,11 +900,11 @@ def render_slider_input_widget_ui():
         st.write("Slider raged time")
         values = st.slider(
             "Slider",
-            min_value=time(0, 0),
-            max_value=time(23, 59),
+            min_value=datetime.time(0, 0),
+            max_value=datetime.time(23, 59),
             help="This is a tooltip",
             key="slider-range-time",
-            value=(time(12, 30), time(18, 0)),
+            value=(datetime.time(12, 30), datetime.time(18, 0)),
         )
         st.write(values)
 
@@ -927,11 +928,14 @@ def render_slider_input_widget_ui():
         st.write("Slider ranged date time")
         values = st.slider(
             "Slider",
-            min_value=datetime(2021, 1, 1),
-            max_value=datetime(2025, 1, 1),
+            min_value=datetime.datetime(2021, 1, 1),
+            max_value=datetime.datetime(2025, 1, 1),
             help="This is a tooltip",
             key="slider-range-datetime",
-            value=(datetime(2022, 1, 1), datetime(2023, 1, 1)),
+            value=(
+                datetime.datetime(2022, 1, 1),
+                datetime.datetime(2023, 1, 1),
+            ),
         )
 
     with col4:
@@ -1121,9 +1125,9 @@ def render_date_input_widget_ui():
         st.date_input(
             "Date Input",
             help="This is a tooltip",
-            min_value=datetime(2021, 1, 1),
-            max_value=datetime(2025, 1, 1),
-            value=datetime(2022, 1, 1),
+            min_value=datetime.datetime(2021, 1, 1),
+            max_value=datetime.datetime(2025, 1, 1),
+            value=datetime.datetime(2022, 1, 1),
             format="YYYY/MM/DD",
             key="date-input",
         )
@@ -1133,9 +1137,9 @@ def render_date_input_widget_ui():
         value = st.date_input(
             "Date Input",
             help="This is a tooltip",
-            min_value=datetime(2021, 1, 1),
-            max_value=datetime(2025, 1, 1),
-            value=datetime(2022, 1, 1),
+            min_value=datetime.datetime(2021, 1, 1),
+            max_value=datetime.datetime(2025, 1, 1),
+            value=datetime.datetime(2022, 1, 1),
             format="YYYY/MM/DD",
             key="date-input-return",
         )
@@ -1148,9 +1152,9 @@ def render_date_input_widget_ui():
         st.date_input(
             "Date Input",
             help="This is a tooltip",
-            min_value=datetime(2021, 1, 1),
-            max_value=datetime(2025, 1, 1),
-            value=datetime(2022, 1, 1),
+            min_value=datetime.datetime(2021, 1, 1),
+            max_value=datetime.datetime(2025, 1, 1),
+            value=datetime.datetime(2022, 1, 1),
             format="YYYY/MM/DD",
             key="date-input-change",
             on_change=lambda x, y: change_placeholder.write(
@@ -1165,9 +1169,9 @@ def render_date_input_widget_ui():
         st.date_input(
             "Date Input",
             help="This is a tooltip",
-            min_value=datetime(2021, 1, 1),
-            max_value=datetime(2025, 1, 1),
-            value=datetime(2022, 1, 1),
+            min_value=datetime.datetime(2021, 1, 1),
+            max_value=datetime.datetime(2025, 1, 1),
+            value=datetime.datetime(2022, 1, 1),
             format="YYYY/MM/DD",
             key="date-input-disabled",
             disabled=True,
@@ -1184,8 +1188,8 @@ def render_time_input_widget_ui():
         st.time_input(
             "Time Input",
             help="This is a tooltip",
-            value=time(12, 30),
-            step=timedelta(minutes=15),
+            value=datetime.time(12, 30),
+            step=datetime.timedelta(minutes=15),
             key="time-input",
         )
 
@@ -1194,7 +1198,7 @@ def render_time_input_widget_ui():
         value = st.time_input(
             "Time Input",
             help="This is a tooltip",
-            value=time(12, 30),
+            value=datetime.time(12, 30),
             key="time-input-return",
         )
         st.write(value)
@@ -1206,7 +1210,7 @@ def render_time_input_widget_ui():
         st.time_input(
             "Time Input",
             help="This is a tooltip",
-            value=time(12, 30),
+            value=datetime.time(12, 30),
             key="time-input-change",
             on_change=lambda x, y: change_placeholder.write(
                 f"Changed! {x} {y}"
@@ -1220,7 +1224,7 @@ def render_time_input_widget_ui():
         st.time_input(
             "Time Input",
             help="This is a tooltip",
-            value=time(12, 30),
+            value=datetime.time(12, 30),
             key="time-input-disabled",
             disabled=True,
         )
@@ -1402,7 +1406,7 @@ def render_media_elements_ui():
 def render_columns_layout_ui():
     st.subheader("Columns")
 
-    col1, col2, col3 = st.columns(3, gap="large")
+    col1, col2, col3 = st.columns([0.5, 1, 1.5], gap="large")
 
     with col1:
         st.write("A cat")
@@ -1417,7 +1421,116 @@ def render_columns_layout_ui():
         st.image("https://static.streamlit.io/examples/owl.jpg")
 
 
+def render_tabs_layout_ui():
+    st.subheader("Tabs")
+
+    tab1, tab2, tab3 = st.tabs([":cat: Cat", ":dog: Dog", ":owl: Owl"])
+
+    with tab1:
+        st.write("A cat")
+        st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+
+    with tab2:
+        st.write("A dog")
+        st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
+
+    with tab3:
+        st.write("An owl")
+        st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
+
+
+def render_expander_layout_ui():
+    st.subheader("Expander")
+
+    with st.expander("See explanation"):
+        st.write(
+            """
+            This is an expander
+            """
+        )
+
+
+def render_container_layout_ui():
+    st.subheader("Container")
+
+    with st.container():
+        st.write(
+            """
+            This is a container
+            """
+        )
+
+
+def render_empty_layout_ui():
+    st.subheader("Empty")
+
+    if st.button("Start", key="start-empty"):
+        with st.empty():
+            for seconds in range(5):
+                st.write(f"⏳ {seconds} seconds have passed")
+                time.sleep(1)
+            st.write("5 seconds over!")
+
+
 def render_layout_ui():
     st.header("Layout", help="This is a tooltip", divider="gray")
 
     render_columns_layout_ui()
+    render_tabs_layout_ui()
+    render_expander_layout_ui()
+    render_container_layout_ui()
+    render_empty_layout_ui()
+
+
+def render_chat_message_ui():
+    st.subheader("Chat Message")
+
+    with st.chat_message("User"):
+        st.write("Hello 👋")
+        st.line_chart(np.random.randn(30, 3))
+
+
+def render_chat_input_ui():
+    st.subheader("Chat Input")
+
+    prompt = st.chat_input("Say something")
+    if prompt:
+        with st.chat_message("User"):
+            st.write(f"User has sent the following prompt: {prompt}")
+
+
+def render_chat_ui():
+    st.header("Chat", help="This is a tooltip", divider="gray")
+
+    render_chat_message_ui()
+    render_chat_input_ui()
+
+
+def render_progress_bar_status_element_ui():
+    st.subheader("Progress Bar")
+
+    progress_text = "Operation on progress. Please wait..."
+
+    if st.button("Start", key="start-progress"):
+        progress_bar = st.progress(0, text=progress_text)
+        for percent_complete in range(100):
+            time.sleep(0.1)
+            progress_bar.progress(percent_complete + 1, text=progress_text)
+        time.sleep(0.5)
+        progress_bar.empty()
+
+
+def render_spinner_status_element_ui():
+    subheader = st.subheader("Spinner")
+
+    if st.button("Start", key="start-spinner"):
+        with st.spinner("wait for it"):
+            time.sleep(5)
+        subheader.success("done")
+
+
+def render_status_elements_ui():
+    st.header("Status Elements", help="This is a tooltip", divider="gray")
+
+    render_progress_bar_status_element_ui()
+    render_spinner_status_element_ui()
