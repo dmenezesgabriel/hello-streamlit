@@ -1372,7 +1372,52 @@ def render_video_media_element_ui():
         st.video(url)
 
 
+def render_audio_media_element_ui():
+    st.subheader("Audio")
+
+    sample_rate = 44100  # 44100 samples per second
+    seconds = 2  # Note duration of 2 seconds
+
+    frequency_la = 440  # Our played note will be 440 Hz
+
+    # Generate array with seconds*sample_rate steps, ranging between 0 and seconds
+    t = np.linspace(0, seconds, seconds * sample_rate, False)
+
+    # Generate a 440 Hz sine wave
+    note_la = np.sin(frequency_la * t * 2 * np.pi)
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.audio(note_la, sample_rate=sample_rate)
+
+
 def render_media_elements_ui():
     st.header("Media Elements", help="This is a tooltip", divider="gray")
     render_image_media_element_ui()
     render_video_media_element_ui()
+    render_audio_media_element_ui()
+
+
+def render_columns_layout_ui():
+    st.subheader("Columns")
+
+    col1, col2, col3 = st.columns(3, gap="large")
+
+    with col1:
+        st.write("A cat")
+        st.image("https://static.streamlit.io/examples/cat.jpg")
+
+    with col2:
+        st.write("A dog")
+        st.image("https://static.streamlit.io/examples/dog.jpg")
+
+    with col3:
+        st.write("An owl")
+        st.image("https://static.streamlit.io/examples/owl.jpg")
+
+
+def render_layout_ui():
+    st.header("Layout", help="This is a tooltip", divider="gray")
+
+    render_columns_layout_ui()

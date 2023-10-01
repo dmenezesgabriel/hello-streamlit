@@ -8,6 +8,7 @@ from ui.st_api_reference import (
     render_dataframe_ui,
     render_input_widgets_ui,
     render_json_ui,
+    render_layout_ui,
     render_matplotlib_ui,
     render_media_elements_ui,
     render_metric_ui,
@@ -38,6 +39,7 @@ def main():
     render_bokeh_ui()
     render_input_widgets_ui()
     render_media_elements_ui()
+    render_layout_ui()
 
 
 main()
