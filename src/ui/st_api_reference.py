@@ -1485,9 +1485,10 @@ def render_layout_ui():
 def render_chat_message_ui():
     st.subheader("Chat Message")
 
-    with st.chat_message("User"):
-        st.write("Hello 👋")
-        st.line_chart(np.random.randn(30, 3))
+    if st.button("Start", key="start-chat"):
+        with st.chat_message("User"):
+            st.write("Hello 👋")
+            st.line_chart(np.random.randn(30, 3))
 
 
 def render_chat_input_ui():
@@ -1529,8 +1530,78 @@ def render_spinner_status_element_ui():
         subheader.success("done")
 
 
+def render_status_status_element_ui():
+    st.subheader("Status")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("Expanded")
+        if st.button("Start", key="start-status-expanded"):
+            with st.status("wait for it") as status:
+                st.write("Searching for data...")
+                time.sleep(2)
+                st.write("Analyzing data...")
+                time.sleep(2)
+                st.write("Downloading data...")
+                status.update(label="Done!", state="complete", expanded=True)
+
+    with col2:
+        st.write("Collapsed")
+        if st.button("Start", key="start-status-collapsed"):
+            with st.status("wait for it") as status:
+                st.write("Searching for data...")
+                time.sleep(2)
+                st.write("Analyzing data...")
+                time.sleep(2)
+                st.write("Downloading data...")
+                status.update(label="Done!", state="complete", expanded=False)
+
+
+def render_toast_status_element_ui():
+    st.subheader("Toast")
+
+    if st.button("Three cheers"):
+        st.toast("Hip!")
+        time.sleep(0.5)
+        st.toast("Hip!")
+        time.sleep(0.5)
+        st.toast("Hooray!", icon="🎉")
+
+
+def render_ballons_status_element_ui():
+    st.subheader("Ballons")
+
+    if st.button("Ballons"):
+        st.balloons()
+
+
+def render_snow_status_element_ui():
+    st.subheader("Snow")
+
+    if st.button("Snow"):
+        st.snow()
+
+
+def render_alerts_status_element_ui():
+    st.subheader("Alerts")
+
+    e = RuntimeError("This is an exception of type RuntimeError")
+
+    st.error("This is an error alert")
+    st.warning("This is a warning alert")
+    st.info("This is an info alert")
+    st.success("This is a success alert")
+    st.exception(e)
+
+
 def render_status_elements_ui():
     st.header("Status Elements", help="This is a tooltip", divider="gray")
 
     render_progress_bar_status_element_ui()
     render_spinner_status_element_ui()
+    render_status_status_element_ui()
+    render_toast_status_element_ui()
+    render_ballons_status_element_ui()
+    render_snow_status_element_ui()
+    render_alerts_status_element_ui()

@@ -1,6 +1,6 @@
 import plotly.express as px
 import streamlit as st
-from components.plotly_events.src import plotly_events
+from components.streamlit_plotly_events.src import st_plotly_events
 
 st.set_page_config(
     page_title="React Plotly events component",
@@ -11,7 +11,7 @@ st.set_page_config(
 
 
 def get_plotly_events(fig):
-    return plotly_events(
+    return st_plotly_events(
         fig, click_event=True, select_event=True, key="selected_points"
     )
 

@@ -3,7 +3,7 @@ from typing import Dict, Set
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from plotly import graph_objects as go
+
 from ui.cross_filter import render_plotly_ui, render_preview_ui
 
 st.set_page_config(
@@ -69,7 +69,7 @@ def main():
     st.title("Cross Filter")
 
     df = load_data()
-    transformed_df = query_data(df)
+    query_data(df)
 
     render_preview_ui(df)
     current_query = render_plotly_ui(df)

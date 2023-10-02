@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from components.plotly_events.src import plotly_events
+from components.streamlit_plotly_events.src import st_plotly_events
 from plotly import graph_objects as go
 
 
@@ -48,7 +48,7 @@ def render_plotly_ui(df: pd.DataFrame):
     c1, c2 = st.columns(2)
 
     with c1:
-        bill_to_tip_selected = plotly_events(
+        bill_to_tip_selected = st_plotly_events(
             bill_to_tip_figure,
             select_event=True,
             click_event=False,
@@ -56,14 +56,14 @@ def render_plotly_ui(df: pd.DataFrame):
             key=f"bill_to_tip_{st.session_state['counter']}",
         )
     with c2:
-        size_to_time_clicked = plotly_events(
+        size_to_time_clicked = st_plotly_events(
             size_to_time_figure,
             click_event=True,
             select_event=False,
             hover_event=False,
             key=f"size_to_time_{st.session_state['counter']}",
         )
-        day_clicked = plotly_events(
+        day_clicked = st_plotly_events(
             day_figure,
             click_event=True,
             hover_event=False,

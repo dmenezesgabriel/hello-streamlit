@@ -1,9 +1,18 @@
 import streamlit as st
-from components.example import component_example
+from components.streamlit_pure_javascript_component import st_pure_js_input
+
+
+st.set_page_config(
+    page_title="Pure Javascript Component",
+    page_icon=":bar_chart:",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+st.title("Pure Javascript Component")
 
 
 def run_component(props):
-    value = component_example(key="example", **props)
+    value = st_pure_js_input(key="example", **props)
     return value
 
 

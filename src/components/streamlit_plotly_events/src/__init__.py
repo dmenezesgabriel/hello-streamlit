@@ -18,7 +18,7 @@ else:
     )
 
 
-def plotly_events(
+def st_plotly_events(
     fig: Figure,
     click_event=True,
     select_event=True,
@@ -72,7 +72,6 @@ def plotly_events(
 if __name__ == "__main__":
     import plotly.express as px
     import streamlit as st
-    from components.plotly_events import plotly_events
 
     st.set_page_config(
         page_title="Plotly Events",
@@ -82,7 +81,7 @@ if __name__ == "__main__":
     )
 
     def get_plotly_events(fig):
-        return plotly_events(
+        return st_plotly_events(
             fig, click_event=True, select_event=True, key="selected_points"
         )
 
