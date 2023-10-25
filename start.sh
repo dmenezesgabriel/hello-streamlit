@@ -41,8 +41,7 @@ start_dashboard() {
   echo "Environment: $ENV"
   PYTHONDONTWRITEBYTECODE=1 \
   ENV=$ENV \
-  $PYTHON_VENV_EXECUTABLE -m streamlit run $DASHBOARD_FILE \
-  --logger.level=debug
+  $PYTHON_VENV_EXECUTABLE -m streamlit run $DASHBOARD_FILE
 }
 
 # Main script
