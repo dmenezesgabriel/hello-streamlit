@@ -23,12 +23,13 @@ def main():
         },
     )
 
-    st_gtag(
-        key="st_gtag_set_b",
-        id="G-LDSKH1L6V2",
-        mode="set",
-        params={"country": "US", "currency": "USD"},
-    )
+    if st.button("Send Event A"):
+        st_gtag(
+            key="st_gtag_set_b",
+            id="G-LDSKH1L6V2",
+            mode="set",
+            params={"country": "US", "currency": "USD"},
+        )
 
 
 main()

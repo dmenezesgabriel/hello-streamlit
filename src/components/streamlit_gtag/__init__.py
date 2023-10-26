@@ -8,5 +8,7 @@ _component_func = components.declare_component(
 
 
 def st_gtag(*args, **kwargs):
+    # Command pattern
+    # return (func, func, func, ...)
     component_value = _component_func(*args, **kwargs)
     return component_value

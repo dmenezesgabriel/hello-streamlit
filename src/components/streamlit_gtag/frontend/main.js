@@ -29,33 +29,31 @@ class GtagHelper {
       }
 
       gtag("js", new Date());
-      gtag("config", id);
+      gtag("config", '${id}');
+
     `;
     window.parent.document.head.insertBefore(gtag, ga.nextSibling);
   }
 
   static async sendEvent(eventName, params) {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("event", eventName, params);
+    window.parent.gtag("event", eventName, params);
+    console.log(window.parent.dataLayer);
   }
 
   static async sendSet(params) {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("set", params);
+    window.parent.gtag("set", params);
+    console.log(window.parent.dataLayer);
   }
 }
 
 async function onRender(event) {
   const props = event.detail.args;
-  console.log(props);
-
   await GtagHelper.setup(props.id);
+
+  setTimeout(() => {
+    console.log(window.parent.google_tag_manager);
+    console.log(window.parent.google_tag_data);
+  }, 1000);
 
   if (props.mode === "event") {
     await GtagHelper.sendEvent(props.mode, props.event_name, props.params);
